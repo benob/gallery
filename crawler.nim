@@ -53,10 +53,11 @@ proc extractMetadata*(pics: var PictureDB, base, filename: string): bool =
     echo hash, ' ', width, ' ', height, ' ', date, ' ', base / filename
     thumbnailImage.close()
   else:
-    echo "failed to make thumbnail ", filename 
+    echo "failed to make thumbnail ", filename
   return true
 
 proc extractMetadata*(pics: var PictureDB, base: string) =
+  var base = normalizePath(base)
   for filename in walkDirRec(base, followFilter = {pcDir, pcLinkToDir}):
     discard pics.extractMetadata(base, filename[(base.len + 1) .. ^1])
   echo "done"
@@ -98,7 +99,7 @@ when isMainModule:
 
   var pics = newPictureDB(dir / "db.sqlite")
   echo pics.len
-  pics.extractMetadata(dir)
+  pics.extractMetadata(normalizePath(dir))
   echo pics.len
 
   #for pic in pics.list():
