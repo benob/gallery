@@ -65,7 +65,7 @@ proc hasHash*(pics: PictureDB, hash: string): bool =
     return (found[0] == "1")
 
 proc getIds*(pics: PictureDB): seq[string] =
-  return pics.getAllRows(sql"""SELECT id FROM pictures WHERE duplicate IS FALSE ORDER BY date DESC""").mapIt(it[0])
+  return pics.getAllRows(sql"""SELECT id FROM pictures WHERE duplicate = 'false' ORDER BY date DESC""").mapIt(it[0])
   #pics.exec(sql"DROP TABLE bydate")
   #pics.exec(sql"CREATE TABLE bydate AS SELECT id FROM pictures WHERE duplicate is NULL or duplicate != 'true' ORDER BY date DESC")
 
